@@ -37,9 +37,7 @@ public class BoardService {
     @Transactional
     public BoardResponseDto create(BoardCreateRequest request) {
         BoardCreatePayload payload = BoardMapper.INSTANCE.toCreatePayload(request);
-        Board board = Board.create(payload);
-        board = boardRepository.save(board);
-        return BoardMapper.INSTANCE.toResponse(board);
+        return BoardMapper.INSTANCE.toResponse(boardRepository.save(Board.create(payload)));
     }
 
     @Transactional
@@ -47,9 +45,7 @@ public class BoardService {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
         BoardUpdatePayload payload = BoardMapper.INSTANCE.toUpdatePayload(request);
-        board.update(payload);
-        board = boardRepository.save(board);
-        return BoardMapper.INSTANCE.toResponse(board);
+        return BoardMapper.INSTANCE.toResponse(boardRepository.save(board.update(payload)));
     }
 
     @Transactional
